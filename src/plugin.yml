@@ -1,0 +1,17 @@
+author: Xen0Xys
+name: Xen0Lib
+version: 0.1
+api-version: 1.17
+main: fr.xen0xys.xen0lib.plugin.Xen0Lib
+
+commands:
+  xdev:
+    permission: xen0lib.xdev
+
+permissions:
+  xen0lib.*:
+    description: Gives access to all Xen0Lib commands
+    children:
+      xen0lib.xdev: true
+  xen0lib.xdev:
+    default: op
