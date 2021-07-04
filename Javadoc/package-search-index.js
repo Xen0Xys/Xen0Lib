@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"fr.xen0xys.xen0lib.database"},{"l":"fr.xen0xys.xen0lib.gui"},{"l":"fr.xen0xys.xen0lib.plugin"},{"l":"fr.xen0xys.xen0lib.plugin.commands"},{"l":"fr.xen0xys.xen0lib.utils"}];updateSearchResults();
