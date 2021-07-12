@@ -34,6 +34,16 @@ public class Gui implements Listener {
         }
     }
 
+    public void fill(int startSlot, int stopSlot, Component component){
+        for(int slot = startSlot; slot < stopSlot; slot++){
+            this.setComponent(slot, component);
+        }
+    }
+
+    public void fill(Component component){
+        this.fill(0, this.inventory.getSize(), component);
+    }
+
     public void openInventory(Player player){
         player.openInventory(this.inventory);
     }

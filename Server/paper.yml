@@ -14,6 +14,7 @@ verbose: false
 use-display-name-in-quit-message: false
 config-version: 20
 settings:
+  log-named-entity-deaths: true
   suggest-player-names-when-null-tab-completions: true
   use-alternative-luck-formula: false
   track-plugin-scoreboards: false
@@ -92,6 +93,7 @@ timings:
   server-name: Unknown Server
 world-settings:
   default:
+    show-sign-click-command-failure-msgs-to-player: false
     use-faster-eigencraft-redstone: false
     water-over-lava-flow-speed: 5
     disable-teleportation-suffocation-check: false
@@ -276,3 +278,9 @@ world-settings:
       maximum: 0.0
     generator-settings:
       flat-bedrock: false
+    mob-effects:
+      undead-immune-to-certain-effects: true
+      spiders-immune-to-poison-effect: true
+      immune-to-wither-effect:
+        wither: true
+        wither-skeleton: true
