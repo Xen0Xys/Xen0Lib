@@ -4,6 +4,7 @@ public enum Status {
 
     Success,
     SQLError,
-    SQLAlreadyOpenError;
+    SQLAlreadyOpenError,
+    SaveError;
 
 }
