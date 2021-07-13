@@ -91,7 +91,9 @@ public class Database {
     public Status openTableAndCreateINE(String tableName, String initTableString){
         if(this.tables.get(tableName) != null){
             Table table = new Table(tableName, this);
-            table.create(initTableString);
+            if(table.create(initTableString) != Status.Success){
+                return Status.SQLError;
+            }
             this.tables.put(tableName, table);
             return Status.Success;
         }

@@ -12,9 +12,22 @@ public class Table {
         this.database = database;
     }
 
-    public Status create(String tableInitString){
-        String query = String.format("CREATE TABLE %s (%s)", this.tableName, tableInitString);
+    public Status create(String initTableString){
+        String query = String.format("CREATE TABLE %s (%s)", this.tableName, initTableString);
         return this.database.executeUpdateQuery(query);
     }
 
+    public Status drop(){
+        String query = String.format("DROP %s;", this.tableName);
+        return this.database.executeUpdateQuery(query);
+    }
+
+    public Status deleteData(String selector){
+        String query = String.format("DELETE FROM %s WHERE %s;", this.tableName, selector);
+        return this.database.executeUpdateQuery(query);
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
 }

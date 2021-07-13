@@ -8,9 +8,9 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 public class Channel implements PluginMessageListener {
 
-    private Plugin plugin;
-    private String channelName;
-    private PluginMessage pluginMessage;
+    private final Plugin plugin;
+    private final String channelName;
+    private final PluginMessage pluginMessage;
 
     public Channel(Plugin plugin, String channelName, PluginMessage pluginMessage){
         this.plugin = plugin;
