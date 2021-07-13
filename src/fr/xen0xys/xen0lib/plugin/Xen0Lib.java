@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 public class Xen0Lib extends JavaPlugin {
 
     private static Plugin instance;
@@ -24,14 +25,18 @@ public class Xen0Lib extends JavaPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-        Bukkit.getPluginCommand("xdev").setExecutor(new XDevCommand());
-
-        // Dev
-        ConfigurationReader configurationReader = new ConfigurationReader(this, "resources/custom_config.yml");
-        System.out.println(configurationReader.getConfiguration().get("yolo"));
+        if(Xen0Lib.isDevModEnable()){
+            Bukkit.getPluginCommand("xdev").setExecutor(new XDevCommand());
+            ConfigurationReader configurationReader = new ConfigurationReader(this, "resources/custom_config.yml");
+            System.out.println(configurationReader.getConfiguration().get("yolo"));
+        }
     }
 
     public static Plugin getInstance() {
         return instance;
+    }
+
+    public static boolean isDevModEnable(){
+        return false;
     }
 }
