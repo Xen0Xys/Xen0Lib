@@ -11,7 +11,7 @@ public class Logger {
     }
 
     private String getFullPrefix(){
-        return String.format("[%s]: ", this.prefix);
+        return String.format("[%s] ", this.prefix);
     }
 
     public void log(String log){

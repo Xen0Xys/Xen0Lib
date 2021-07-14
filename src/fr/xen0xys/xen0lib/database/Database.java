@@ -101,6 +101,36 @@ public class Database {
     }
 
     /**
+     * Open Table from custom Table Object and initilialize it
+     * @param table Custom Table Object
+     * @param initTableString Table initialization string
+     * @return Xen0Lib Status
+     */
+    public Status openTable(Table table, String initTableString){
+        if(this.tables.get(table.getTableName()) != null){
+            if(table.create(initTableString) != Status.Success){
+                return Status.SQLError;
+            }
+            this.tables.put(table.getTableName(), table);
+            return Status.Success;
+        }
+        return Status.SQLAlreadyOpenError;
+    }
+
+    /**
+     * Open Table from custom Table Object
+     * @param table Custom Table Object
+     * @return Xen0Lib Status
+     */
+    public Status openTable(Table table){
+        if(this.tables.get(table.getTableName()) != null){
+            this.tables.put(table.getTableName(), table);
+            return Status.Success;
+        }
+        return Status.SQLAlreadyOpenError;
+    }
+
+    /**
      * Return table
      * @param tableName Table Name
      * @return Xen0Lib Table
