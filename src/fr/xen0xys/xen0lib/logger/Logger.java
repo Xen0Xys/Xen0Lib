@@ -1,6 +1,6 @@
 package fr.xen0xys.xen0lib.logger;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 public class Logger {
 
