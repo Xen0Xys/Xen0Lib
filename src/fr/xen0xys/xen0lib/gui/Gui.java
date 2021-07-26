@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -14,13 +16,17 @@ import java.util.HashMap;
 
 public class Gui implements Listener {
 
+    private final Plugin plugin;
     private final Inventory inventory;
     private final HashMap<Integer, Component> components;
+    private final boolean preventClosing;
 
-    public Gui(Plugin plugin, String name, int size){
+    public Gui(Plugin plugin, String name, int linesNumber, boolean preventClosing){
+        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
-        this.inventory = Bukkit.createInventory(null, size, name);
+        this.inventory = Bukkit.createInventory(null, linesNumber * 9, name);
         this.components = new HashMap<>();
+        this.preventClosing = preventClosing;
     }
 
     public void setComponent(int slot, Component component){
@@ -45,21 +51,41 @@ public class Gui implements Listener {
     }
 
     public void openInventory(Player player){
+        this.openInventory(player, true);
+    }
+
+    public void openInventory(Player player, boolean refresh){
+        if(refresh)
+            this.refresh();
         player.openInventory(this.inventory);
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e){
-        e.setCancelled(true);
-        ItemStack clickedItem = e.getCurrentItem();
-        if(clickedItem != null){
-            for(Component component: this.components.values()){
-                if(clickedItem.isSimilar(component.getItemComponent())){
-                    if(component instanceof ClickableComponent){
-                        ((ClickableComponent) component).onClick(e);
+        if(e.getClickedInventory() == this.inventory){
+            e.setCancelled(true);
+            ItemStack clickedItem = e.getCurrentItem();
+            if(clickedItem != null){
+                for(Component component: this.components.values()){
+                    if(clickedItem.isSimilar(component.getItemComponent())){
+                        if(component instanceof ClickableComponent){
+                            ((ClickableComponent) component).onClick(e);
+                        }
                     }
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onInventoryClosed(InventoryCloseEvent e){
+        if(e.getInventory() == this.inventory && this.preventClosing){
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    e.getPlayer().openInventory(inventory);
+                }
+            }, 1L); //20 Tick (1 Second) delay before run() is called
         }
     }
 

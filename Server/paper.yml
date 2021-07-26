@@ -12,7 +12,7 @@
 
 verbose: false
 use-display-name-in-quit-message: false
-config-version: 20
+config-version: 21
 settings:
   log-named-entity-deaths: true
   suggest-player-names-when-null-tab-completions: true
@@ -72,6 +72,7 @@ settings:
   console:
     enable-brigadier-highlighting: true
     enable-brigadier-completions: true
+  use-display-name-in-quit-message: false
 messages:
   no-permission: '&cI''m sorry, but you do not have permission to perform this command.
     Please contact the server administrators if you believe that this is in error.'
@@ -81,6 +82,7 @@ messages:
     flying-player: Flying is not enabled on this server
     flying-vehicle: Flying is not enabled on this server
 timings:
+  url: https://timings.aikar.co/
   enabled: true
   verbose: true
   server-name-privacy: false
@@ -93,6 +95,7 @@ timings:
   server-name: Unknown Server
 world-settings:
   default:
+    allow-player-cramming-damage: false
     show-sign-click-command-failure-msgs-to-player: false
     use-faster-eigencraft-redstone: false
     water-over-lava-flow-speed: 5
@@ -182,6 +185,8 @@ world-settings:
           per-player: false
           day: 5
     entity-per-chunk-save-limit:
+      fireball: -1
+      small_fireball: -1
       experience_orb: -1
       snowball: -1
       ender_pearl: -1
@@ -284,3 +289,10 @@ world-settings:
       immune-to-wither-effect:
         wither: true
         wither-skeleton: true
+    tick-rates:
+      sensor:
+        villager:
+          secondarypoisensor: 40
+      behavior:
+        villager:
+          validatenearbypoi: -1
