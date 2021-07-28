@@ -35,4 +35,15 @@ class UtilsTest {
             assert false;
         }
     }
+
+    @Test
+    void getCurrentTimestamp() {
+        System.out.println(Utils.getCurrentTimestamp());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Utils.getCurrentTimestamp());
+    }
 }
