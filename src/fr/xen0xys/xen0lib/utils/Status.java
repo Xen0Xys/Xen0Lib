@@ -7,6 +7,13 @@ public enum Status {
     SQLAlreadyOpenError,
     SaveError,
     SQLTableAlreadyExist,
-    SQLTableNotExist;
+    SQLTableNotExist,
+    HasSession,
+    NoSession,
+    AccountExist,
+    AccountNotExist,
+    AccessAllowed,
+    AccessDenied,
+    RefusedPassword;
 
 }
