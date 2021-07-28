@@ -23,26 +23,32 @@ public class Database {
         this.user = user;
         this.password = password;
         this.database = database;
-        this.connection = this.connect();
         this.tables = new HashMap<>();
     }
 
-    private Connection connect(){
+    /**
+     * Need to execute connect method to connect Database Object to Remote Database.
+     * @return Xen0Lib Status
+     */
+    public Status connect(){
         try{
-            return DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s",
+            this.connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s",
                     this.ip,
                     this.port,
                     this.database),
                     this.user,
                     this.password);
+            if(this.connection != null){
+                return Status.Success;
+            }
         }catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return Status.SQLError;
     }
 
     /**
-     * Try reconnect to database
+     * Try to reconnect to database
      * @return Xen0Lib Status
      */
     public Status reconnect(){
@@ -53,11 +59,7 @@ public class Database {
                 e.printStackTrace();
             }
         }
-        this.connection = this.connect();
-        if(connection != null){
-            return Status.Success;
-        }
-        return Status.SQLError;
+        return this.connect();
     }
 
     // TABLE MANAGEMENT
@@ -101,7 +103,7 @@ public class Database {
     }
 
     /**
-     * Open Table from custom Table Object and initilialize it
+     * Open Table from custom Table Object and initialize it
      * @param table Custom Table Object
      * @param initTableString Table initialization string
      * @return Xen0Lib Status
