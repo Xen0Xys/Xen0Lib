@@ -34,4 +34,8 @@ public class Table {
     public String getTableName() {
         return tableName;
     }
+
+    public Database getDatabase() {
+        return database;
+    }
 }
