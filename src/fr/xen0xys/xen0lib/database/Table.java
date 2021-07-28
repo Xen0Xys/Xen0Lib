@@ -13,8 +13,12 @@ public class Table {
     }
 
     public Status create(String initTableString){
-        String query = String.format("CREATE TABLE %s (%s)", this.tableName, initTableString);
-        return this.database.executeUpdateQuery(query);
+        if(database.isTableExist(this.tableName) == Status.SQLTableNotExist){
+            String query = String.format("CREATE TABLE %s (%s)", this.tableName, initTableString);
+            return this.database.executeUpdateQuery(query);
+        }else{
+            return Status.SQLTableAlreadyExist;
+        }
     }
 
     public Status drop(){

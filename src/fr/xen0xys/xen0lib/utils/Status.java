@@ -5,6 +5,8 @@ public enum Status {
     Success,
     SQLError,
     SQLAlreadyOpenError,
-    SaveError;
+    SaveError,
+    SQLTableAlreadyExist,
+    SQLTableNotExist;
 
 }

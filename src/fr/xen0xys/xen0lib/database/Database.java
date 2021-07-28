@@ -93,11 +93,22 @@ public class Database {
     public Status openTableAndCreateINE(String tableName, String initTableString){
         if(this.tables.get(tableName) != null){
             Table table = new Table(tableName, this);
-            if(table.create(initTableString) != Status.Success){
+            return this.openTableAndCreateINE(table, initTableString);
+        }
+        return Status.SQLAlreadyOpenError;
+    }
+
+    public Status openTableAndCreateINE(Table table, String initTableString){
+        if(table.getTableName() != null){
+            Status status = table.create(initTableString);
+            if(status == Status.Success){
+                this.tables.put(table.getTableName(), table);
+                return Status.Success;
+            }else if(status == Status.SQLTableAlreadyExist){
+                return status;
+            }else{
                 return Status.SQLError;
             }
-            this.tables.put(tableName, table);
-            return Status.Success;
         }
         return Status.SQLAlreadyOpenError;
     }
@@ -233,6 +244,21 @@ public class Database {
             this.reconnect();
         }
         return null;
+    }
+
+    public Status isTableExist(String tableName){
+        String query = String.format("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s'", this.database, tableName);
+        ResultSet rs = this.executeQuery(query);
+        try {
+            if(rs.next()){
+                return Status.SQLTableAlreadyExist;
+            }else{
+                return Status.SQLTableNotExist;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Status.SQLError;
     }
 
 }
