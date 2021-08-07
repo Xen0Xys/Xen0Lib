@@ -3,6 +3,7 @@ package fr.xen0xys.xen0lib.plugin;
 import fr.xen0xys.xen0lib.bungeecord.BungeeChannel;
 import fr.xen0xys.xen0lib.bungeecord.PluginMessage;
 import fr.xen0xys.xen0lib.database.Database;
+import fr.xen0xys.xen0lib.database.Table;
 import fr.xen0xys.xen0lib.plugin.commands.DisabledXDevCommand;
 import fr.xen0xys.xen0lib.plugin.commands.XDevCommand;
 import fr.xen0xys.xen0lib.utils.ConfigurationReader;
@@ -43,9 +44,17 @@ public class Xen0Lib extends JavaPlugin implements PluginMessage{
             System.out.println(configurationReader.getConfiguration().get("yolo"));
 
             // SQLite database test:
-            Database db = new Database(this.getDataFolder().getPath(), "test");
-            db.connect();
-            db.disconnect();
+            Database database = new Database(this.getDataFolder().getPath(), "DiscordAuth");
+            database.connect();
+            Table accountTable = new Table("DiscordAuth_Accounts", database);
+            database.openTableAndCreateINE(accountTable, "id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT," +
+                    "UUID VARCHAR(50)," +
+                    "minecraftName VARCHAR(30)," +
+                    "discordId BIGINT," +
+                    "password VARCHAR(100)," +
+                    "ip VARCHAR(100)," +
+                    "lastLogin BIGINT," +
+                    "hasSession TINYINT");
         }else{
             Bukkit.getPluginCommand("xdev").setExecutor(new DisabledXDevCommand());
         }
@@ -57,7 +66,7 @@ public class Xen0Lib extends JavaPlugin implements PluginMessage{
     }
 
     private static boolean isDevModEnable(){
-        return false;
+        return true;
     }
 
     public static BungeeChannel getChannel() {

@@ -1,10 +1,13 @@
 package fr.xen0xys.xen0lib.database;
 
 import fr.xen0xys.xen0lib.utils.Status;
+import org.sqlite.SQLiteConnection;
 
 import java.nio.file.Path;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Database {
 
@@ -133,6 +136,7 @@ public class Database {
      * @return Xen0Lib Status
      */
     public Status openTableAndCreateINE(String tableName, String initTableString){
+        initTableString = changeQuerySyntax(initTableString);
         if(this.tables.get(tableName) != null){
             Table table = new Table(tableName, this);
             return this.openTableAndCreateINE(table, initTableString);
@@ -141,6 +145,7 @@ public class Database {
     }
 
     public Status openTableAndCreateINE(Table table, String initTableString){
+        initTableString = changeQuerySyntax(initTableString);
         if(table.getTableName() != null){
             Status status = table.create(initTableString);
             if(status == Status.Success){
@@ -162,6 +167,7 @@ public class Database {
      * @return Xen0Lib Status
      */
     public Status openTable(Table table, String initTableString){
+        initTableString = changeQuerySyntax(initTableString);
         if(this.tables.get(table.getTableName()) != null){
             if(table.create(initTableString) != Status.Success){
                 return Status.SQLError;
@@ -211,6 +217,7 @@ public class Database {
      * @return Xen0Lib Status
      */
     public Status executeUpdateQuery(String query){
+        query = changeQuerySyntax(query);
         try {
             Statement statement = this.getStatement();
             if(statement != null) {
@@ -230,6 +237,7 @@ public class Database {
      * @return SQL ResultSet
      */
     public ResultSet executeQuery(String query){
+        query = changeQuerySyntax(query);
         try{
             Statement statement = this.getStatement();
             if(statement != null){
@@ -250,6 +258,7 @@ public class Database {
      * @return Prepared Statement
      */
     public PreparedStatement getPreparedStatement(String query){
+        query = changeQuerySyntax(query);
         try {
             return this.connection.prepareStatement(query);
         } catch (SQLException e) {
@@ -289,7 +298,13 @@ public class Database {
     }
 
     public Status isTableExist(String tableName){
-        String query = String.format("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s'", this.databaseName, tableName);
+        String query;
+        if(this.isMySQL){
+            query = String.format("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s'", this.databaseName, tableName);
+        }else{
+            query = String.format("SELECT name FROM sqlite_master WHERE type='table' AND name='%s';", tableName);
+        }
+
         ResultSet rs = this.executeQuery(query);
         try {
             if(rs.next()){
@@ -314,6 +329,37 @@ public class Database {
             e.printStackTrace();
         }
         return Status.SQLError;
+    }
+
+    private String changeQuerySyntax(String inputString){
+        if(!this.isMySQL){
+            List<String> fieldNames = new ArrayList<>();
+            String outputString = inputString;
+            outputString = outputString.replace(" INT ", " INTEGER ");
+            outputString = outputString.replace(" INT,", " INTEGER,");
+            outputString = outputString.replace("UNSIGNED", "");
+            outputString = outputString.replace("  ", " ");
+            for(String temp: inputString.split("\\(")[0].split(",")){
+                if(temp.contains("AUTO_INCREMENT")){
+                    String fieldName = temp.split(" ")[0];
+                    fieldNames.add(fieldName);
+
+
+                }
+            }
+            if(fieldNames.size() != 0){
+                outputString = outputString.replace("PRIMARY KEY", "");
+                outputString = outputString.replace("AUTO_INCREMENT", "");
+                outputString = outputString.replace("  ", " ");
+                for(String fieldName: fieldNames){
+
+                    outputString += String.format(",PRIMARY KEY(\"%s\" AUTOINCREMENT)", fieldName);
+                }
+            }
+            System.out.println(outputString);
+            return outputString;
+        }
+        return inputString;
     }
 
 }
