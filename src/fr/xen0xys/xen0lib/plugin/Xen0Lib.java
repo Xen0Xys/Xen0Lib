@@ -41,7 +41,7 @@ public class Xen0Lib extends JavaPlugin implements PluginMessage{
             channel = new BungeeChannel(this, this);
             Bukkit.getPluginCommand("xdev").setExecutor(new XDevCommand());
             ConfigurationReader configurationReader = new ConfigurationReader(this, "resources/custom_config.yml");
-            System.out.println(configurationReader.getConfiguration().get("yolo"));
+            System.out.println(configurationReader.getConfiguration().get("yolo")); // Return test
 
             // SQLite database test:
             Database database = new Database(this.getDataFolder().getPath(), "DiscordAuth");
@@ -66,7 +66,7 @@ public class Xen0Lib extends JavaPlugin implements PluginMessage{
     }
 
     private static boolean isDevModEnable(){
-        return true;
+        return false;
     }
 
     public static BungeeChannel getChannel() {

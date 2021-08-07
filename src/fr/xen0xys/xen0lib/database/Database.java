@@ -352,11 +352,9 @@ public class Database {
                 outputString = outputString.replace("AUTO_INCREMENT", "");
                 outputString = outputString.replace("  ", " ");
                 for(String fieldName: fieldNames){
-
                     outputString += String.format(",PRIMARY KEY(\"%s\" AUTOINCREMENT)", fieldName);
                 }
             }
-            System.out.println(outputString);
             return outputString;
         }
         return inputString;
