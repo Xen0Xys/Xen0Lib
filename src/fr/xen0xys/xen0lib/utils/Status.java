@@ -14,6 +14,10 @@ public enum Status {
     AccountNotExist,
     AccessAllowed,
     AccessDenied,
-    RefusedPassword;
+    RefusedPassword,
+    ValidPassword,
+    InvalidPassword,
+    DataExist,
+    DataNotExist;
 
 }

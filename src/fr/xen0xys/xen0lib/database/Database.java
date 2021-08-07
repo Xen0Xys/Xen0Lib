@@ -2,28 +2,56 @@ package fr.xen0xys.xen0lib.database;
 
 import fr.xen0xys.xen0lib.utils.Status;
 
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.HashMap;
 
-/**
- * Database object, contain connection to database
- */
 public class Database {
+
+
     private Connection connection;
     private final String ip;
     private final int port;
     private final String user;
     private final String password;
-    private final String database;
+    private final String databaseName;
+    private final String databasePath;
+    private final boolean isMySQL;
     private final HashMap<String, Table> tables;
 
+    /**
+     * Constructor for MySQL database only!
+     * @param ip
+     * @param port
+     * @param user
+     * @param password
+     * @param database
+     */
     public Database(String ip, int port, String user, String password, String database){
         this.ip = ip;
         this.port = port;
         this.user = user;
         this.password = password;
-        this.database = database;
+        this.databaseName = database;
         this.tables = new HashMap<>();
+        this.databasePath = null;
+        this.isMySQL = true;
+    }
+
+    /**
+     * Constructor for SQLite database only!
+     * @param folderPath Path for folder which database go in
+     * @param fileName Database file name
+     */
+    public Database(String folderPath, String fileName){
+        this.ip = "";
+        this.port = 0;
+        this.user = "";
+        this.password = "";
+        this.databaseName = "";
+        this.tables = new HashMap<>();
+        this.databasePath = folderPath + "/" + fileName + ".db";
+        this.isMySQL = false;
     }
 
     /**
@@ -32,12 +60,16 @@ public class Database {
      */
     public Status connect(){
         try{
-            this.connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s",
-                    this.ip,
-                    this.port,
-                    this.database),
-                    this.user,
-                    this.password);
+            if(this.isMySQL){
+                this.connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s",
+                        this.ip,
+                        this.port,
+                        this.databaseName),
+                        this.user,
+                        this.password);
+            }else{
+                this.connection = DriverManager.getConnection(String.format("jdbc:sqlite:%s", this.databasePath));
+            }
             if(this.connection != null){
                 return Status.Success;
             }
@@ -53,13 +85,23 @@ public class Database {
      */
     public Status reconnect(){
         if(this.connection != null){
-            try{
-                this.connection.close();
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
+            this.disconnect();
         }
         return this.connect();
+    }
+
+    /**
+     * Disconnect from database
+     * @return Xen0Lib Status
+     */
+    public Status disconnect(){
+        try {
+            this.connection.close();
+            return Status.Success;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Status.SQLError;
     }
 
     // TABLE MANAGEMENT
@@ -247,13 +289,26 @@ public class Database {
     }
 
     public Status isTableExist(String tableName){
-        String query = String.format("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s'", this.database, tableName);
+        String query = String.format("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s'", this.databaseName, tableName);
         ResultSet rs = this.executeQuery(query);
         try {
             if(rs.next()){
                 return Status.SQLTableAlreadyExist;
             }else{
                 return Status.SQLTableNotExist;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Status.SQLError;
+    }
+
+    public Status isDataExist(ResultSet rs){
+        try {
+            if(rs.next()){
+                return Status.DataExist;
+            }else{
+                return Status.DataNotExist;
             }
         } catch (SQLException e) {
             e.printStackTrace();

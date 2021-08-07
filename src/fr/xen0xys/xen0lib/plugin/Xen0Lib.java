@@ -2,6 +2,7 @@ package fr.xen0xys.xen0lib.plugin;
 
 import fr.xen0xys.xen0lib.bungeecord.BungeeChannel;
 import fr.xen0xys.xen0lib.bungeecord.PluginMessage;
+import fr.xen0xys.xen0lib.database.Database;
 import fr.xen0xys.xen0lib.plugin.commands.DisabledXDevCommand;
 import fr.xen0xys.xen0lib.plugin.commands.XDevCommand;
 import fr.xen0xys.xen0lib.utils.ConfigurationReader;
@@ -40,6 +41,11 @@ public class Xen0Lib extends JavaPlugin implements PluginMessage{
             Bukkit.getPluginCommand("xdev").setExecutor(new XDevCommand());
             ConfigurationReader configurationReader = new ConfigurationReader(this, "resources/custom_config.yml");
             System.out.println(configurationReader.getConfiguration().get("yolo"));
+
+            // SQLite database test:
+            Database db = new Database(this.getDataFolder().getPath(), "test");
+            db.connect();
+            db.disconnect();
         }else{
             Bukkit.getPluginCommand("xdev").setExecutor(new DisabledXDevCommand());
         }
