@@ -3,21 +3,18 @@ package fr.xen0xys.xen0lib.utils;
 public enum Status {
 
     Success,
+    Error,
     SQLError,
     SQLAlreadyOpenError,
-    SaveError,
     SQLTableAlreadyExist,
-    SQLTableNotExist,
+    Exist,
+    NotExist,
     HasSession,
     NoSession,
-    AccountExist,
-    AccountNotExist,
-    AccessAllowed,
-    AccessDenied,
-    RefusedPassword,
-    ValidPassword,
-    InvalidPassword,
-    DataExist,
-    DataNotExist;
+    Allowed,
+    Denied,
+    Refused,
+    Valid,
+    Invalid;
 
 }

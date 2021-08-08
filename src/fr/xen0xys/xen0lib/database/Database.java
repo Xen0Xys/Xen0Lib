@@ -59,7 +59,7 @@ public class Database {
 
     /**
      * Need to execute connect method to connect Database Object to Remote Database.
-     * @return Xen0Lib Status
+     * @return Xen0Lib Status: Success, SQLError
      */
     public Status connect(){
         try{
@@ -84,7 +84,7 @@ public class Database {
 
     /**
      * Try to reconnect to database
-     * @return Xen0Lib Status
+     * @return Xen0Lib Status: Success, SQLError
      */
     public Status reconnect(){
         if(this.connection != null){
@@ -95,7 +95,7 @@ public class Database {
 
     /**
      * Disconnect from database
-     * @return Xen0Lib Status
+     * @return Xen0Lib Status: Success, SQLError
      */
     public Status disconnect(){
         try {
@@ -120,7 +120,7 @@ public class Database {
     /**
      * Open table
      * @param tableName Table name
-     * @return Xen0Lib Status
+     * @return Xen0Lib Status: Success, SQLAlreadyOpenError
      */
     public Status openTable(String tableName){
         if(this.tables.get(tableName) != null){
@@ -133,7 +133,8 @@ public class Database {
     /**
      * Open table and create it if not exist
      * @param tableName Table name
-     * @return Xen0Lib Status
+     * @param initTableString Table init string
+     * @return Xen0Lib Status: Success, Exist, SQLError, SQLAlreadyOpenError
      */
     public Status openTableAndCreateINE(String tableName, String initTableString){
         initTableString = changeQuerySyntax(initTableString);
@@ -144,6 +145,12 @@ public class Database {
         return Status.SQLAlreadyOpenError;
     }
 
+    /**
+     * Open table and create it if not exist
+     * @param table Xen0Lib Table Object
+     * @param initTableString Table init string
+     * @return Xen0Lib Status: Success, Exist, SQLError, SQLAlreadyOpenError
+     */
     public Status openTableAndCreateINE(Table table, String initTableString){
         initTableString = changeQuerySyntax(initTableString);
         if(table.getTableName() != null){
@@ -151,7 +158,7 @@ public class Database {
             if(status == Status.Success){
                 this.tables.put(table.getTableName(), table);
                 return Status.Success;
-            }else if(status == Status.SQLTableAlreadyExist){
+            }else if(status == Status.Exist){
                 return status;
             }else{
                 return Status.SQLError;
@@ -164,7 +171,7 @@ public class Database {
      * Open Table from custom Table Object and initialize it
      * @param table Custom Table Object
      * @param initTableString Table initialization string
-     * @return Xen0Lib Status
+     * @return Xen0Lib Status: Success, SQLError, SQLAlreadyOpenError
      */
     public Status openTable(Table table, String initTableString){
         initTableString = changeQuerySyntax(initTableString);
@@ -181,7 +188,7 @@ public class Database {
     /**
      * Open Table from custom Table Object
      * @param table Custom Table Object
-     * @return Xen0Lib Status
+     * @return Xen0Lib Status, Success, SQLError, SQLAlreadyOpenError
      */
     public Status openTable(Table table){
         if(this.tables.get(table.getTableName()) != null){
@@ -214,7 +221,7 @@ public class Database {
     /**
      * Execute and update given SQL query
      * @param query SQL query
-     * @return Xen0Lib Status
+     * @return Xen0Lib Status: Success, SQLError
      */
     public Status executeUpdateQuery(String query){
         query = changeQuerySyntax(query);
@@ -270,7 +277,7 @@ public class Database {
     /**
      * Execute given Prepared Statement without update
      * @param preparedStatement SQL Prepared Statement
-     * @return Xen0Lib Status
+     * @return Xen0Lib Status: Success, SQLError
      */
     public Status executeUpdatePreparedStatement(PreparedStatement preparedStatement){
         try {
@@ -297,6 +304,11 @@ public class Database {
         return null;
     }
 
+    /**
+     * Check if table exist
+     * @param tableName Table name
+     * @return Xen0Lib Status: Exist, NotExist, SQLError
+     */
     public Status isTableExist(String tableName){
         String query;
         if(this.isMySQL){
@@ -308,9 +320,9 @@ public class Database {
         ResultSet rs = this.executeQuery(query);
         try {
             if(rs.next()){
-                return Status.SQLTableAlreadyExist;
+                return Status.Exist;
             }else{
-                return Status.SQLTableNotExist;
+                return Status.NotExist;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -318,12 +330,17 @@ public class Database {
         return Status.SQLError;
     }
 
+    /**
+     * Check if rs is empty or not
+     * @param rs SQL ResultSet
+     * @return Xen0Lib Status: Exist, NotExist, SQLError
+     */
     public Status isDataExist(ResultSet rs){
         try {
             if(rs.next()){
-                return Status.DataExist;
+                return Status.Exist;
             }else{
-                return Status.DataNotExist;
+                return Status.NotExist;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -343,8 +360,6 @@ public class Database {
                 if(temp.contains("AUTO_INCREMENT")){
                     String fieldName = temp.split(" ")[0];
                     fieldNames.add(fieldName);
-
-
                 }
             }
             if(fieldNames.size() != 0){

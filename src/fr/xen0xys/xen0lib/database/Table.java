@@ -12,12 +12,17 @@ public class Table {
         this.database = database;
     }
 
+    /**
+     * Create table
+     * @param initTableString
+     * @return Xen0Lib Status: Success, SQLError, Exist
+     */
     public Status create(String initTableString){
-        if(database.isTableExist(this.tableName) == Status.SQLTableNotExist){
+        if(database.isTableExist(this.tableName) == Status.NotExist){
             String query = String.format("CREATE TABLE %s (%s)", this.tableName, initTableString);
             return this.database.executeUpdateQuery(query);
         }else{
-            return Status.SQLTableAlreadyExist;
+            return Status.Exist;
         }
     }
 
