@@ -1,5 +1,6 @@
 package fr.xen0xys.xen0lib.gui.anvilgui;
 
+import fr.xen0xys.xen0lib.gui.anvilgui.version.VersionMatcher;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -30,7 +31,7 @@ public class AnvilGUI {
     /**
      * The local {@link VersionWrapper} object for the server's version
      */
-    private static VersionWrapper WRAPPER = new Wrapper();
+    private static VersionWrapper WRAPPER = new VersionMatcher().match();
 
     /**
      * The {@link Plugin} that this anvil GUI is associated with

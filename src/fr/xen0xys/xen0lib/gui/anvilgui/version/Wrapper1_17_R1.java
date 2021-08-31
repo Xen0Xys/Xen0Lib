@@ -1,5 +1,7 @@
-package fr.xen0xys.xen0lib.gui.anvilgui;
+package fr.xen0xys.xen0lib.gui.anvilgui.version;
 
+import fr.xen0xys.xen0lib.gui.anvilgui.AnvilContainer1_17_1_R1;
+import fr.xen0xys.xen0lib.gui.anvilgui.VersionWrapper;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.network.chat.ChatComponentText;
 import net.minecraft.network.chat.ChatMessage;
@@ -12,13 +14,17 @@ import net.minecraft.world.inventory.Container;
 import net.minecraft.world.inventory.ContainerAccess;
 import net.minecraft.world.inventory.ContainerAnvil;
 import net.minecraft.world.inventory.Containers;
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_17_R1.event.CraftEventFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-public class Wrapper implements VersionWrapper {
+public class Wrapper1_17_R1 implements VersionWrapper {
+
+    private final boolean IS_ONE_SEVENTEEN_ONE = Bukkit.getBukkitVersion().contains("1.17.1");
+
     private int getRealNextContainerId(Player player) {
         return toNMS(player).nextContainerCounter();
     }
@@ -28,6 +34,9 @@ public class Wrapper implements VersionWrapper {
      */
     @Override
     public int getNextContainerId(Player player, Object container) {
+        if (IS_ONE_SEVENTEEN_ONE){
+            return ((AnvilContainer1_17_1_R1) container).getContainerId();
+        }
         return ((AnvilContainer) container).getContainerId();
     }
 
@@ -100,6 +109,9 @@ public class Wrapper implements VersionWrapper {
      */
     @Override
     public Object newContainerAnvil(Player player, String guiTitle) {
+        if (IS_ONE_SEVENTEEN_ONE){
+            return new AnvilContainer1_17_1_R1(player,getRealNextContainerId(player),guiTitle);
+        }
         return new AnvilContainer(player, guiTitle);
     }
 
@@ -118,7 +130,7 @@ public class Wrapper implements VersionWrapper {
      */
     private class AnvilContainer extends ContainerAnvil {
         public AnvilContainer(Player player, String guiTitle) {
-            super(Wrapper.this.getRealNextContainerId(player), ((CraftPlayer)player).getHandle().getInventory(),
+            super(Wrapper1_17_R1.this.getRealNextContainerId(player), ((CraftPlayer)player).getHandle().getInventory(),
                     ContainerAccess.at(((CraftWorld)player.getWorld()).getHandle(), new BlockPosition(0, 0, 0)));
             this.checkReachable = false;
             setTitle(new ChatMessage(guiTitle));
