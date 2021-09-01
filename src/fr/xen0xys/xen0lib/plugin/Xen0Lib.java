@@ -66,7 +66,7 @@ public class Xen0Lib extends JavaPlugin implements PluginMessage{
     }
 
     private static boolean isDevModEnable(){
-        return true;
+        return false;
     }
 
     public static BungeeChannel getChannel() {
