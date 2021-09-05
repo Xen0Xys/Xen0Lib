@@ -28,7 +28,7 @@ public abstract class FileUtils {
         }
     }
 
-    public String readFile(Path path){
+    public static String readFile(Path path){
         try {
             File myObj = new File(path.toString());
             Scanner myReader = new Scanner(myObj);

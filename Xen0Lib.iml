@@ -64,5 +64,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="velocity-api-3.0.1" level="project" />
+    <orderEntry type="library" name="guice-4.2.3" level="project" />
   </component>
 </module>
