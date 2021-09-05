@@ -21,7 +21,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="spigot-1.17.1" level="project" />
-    <orderEntry type="library" name="BungeeCord" level="project" />
     <orderEntry type="module-library">
       <library name="JUnit4">
         <CLASSES>
@@ -64,6 +63,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="guice-4.2.3" level="project" />
+    <orderEntry type="library" name="opentest4j-1.2.0" level="project" />
   </component>
 </module>
