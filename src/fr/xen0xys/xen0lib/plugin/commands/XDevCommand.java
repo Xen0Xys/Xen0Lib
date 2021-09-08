@@ -1,5 +1,7 @@
 package fr.xen0xys.xen0lib.plugin.commands;
 
+import fr.xen0xys.xen0lib.bungeecord.BungeeChannel;
+import fr.xen0xys.xen0lib.bungeecord.PluginMessage;
 import fr.xen0xys.xen0lib.gui.anvilgui.AnvilGUI;
 import fr.xen0xys.xen0lib.plugin.Xen0Lib;
 import org.bukkit.Material;
@@ -9,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class XDevCommand implements CommandExecutor{
+public class XDevCommand implements CommandExecutor, PluginMessage {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if(commandSender instanceof Player player){
@@ -17,7 +19,7 @@ public class XDevCommand implements CommandExecutor{
             /**
              AnvilGui gui = new AnvilGui(Xen0Lib.getInstance(), "Test", false);
              gui.openInventory(player);
-             */
+
 
             AnvilGUI.Builder builder = new AnvilGUI.Builder().plugin(Xen0Lib.getInstance()).itemLeft(new ItemStack(Material.PAPER)).title("Test").text("password");
 
@@ -31,8 +33,17 @@ public class XDevCommand implements CommandExecutor{
             });
 
             builder.open(player);
+             */
 
+            player.sendMessage("Teleporting...");
+            BungeeChannel channel = new BungeeChannel(Xen0Lib.getInstance(), this);
+            channel.connect(player, "netherrp");
         }
         return false;
+    }
+
+    @Override
+    public void onPluginMessageReceived(Player player, String message) {
+
     }
 }

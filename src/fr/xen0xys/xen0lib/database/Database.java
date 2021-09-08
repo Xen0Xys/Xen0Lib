@@ -64,7 +64,7 @@ public class Database {
     public Status connect(){
         try{
             if(this.isMySQL){
-                this.connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s",
+                this.connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s?autoReconnect=true",
                         this.ip,
                         this.port,
                         this.databaseName),

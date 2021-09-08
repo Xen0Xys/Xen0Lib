@@ -38,8 +38,9 @@ public class Xen0Lib extends JavaPlugin implements PluginMessage{
     public void onEnable() {
         super.onEnable();
         if(Xen0Lib.isDevModEnable()){
-            channel = new BungeeChannel(this, this);
             Bukkit.getPluginCommand("xdev").setExecutor(new XDevCommand());
+            /*
+            channel = new BungeeChannel(this, this);
             ConfigurationReader configurationReader = new ConfigurationReader(this, "resources/custom_config.yml");
             System.out.println(configurationReader.getConfiguration().get("yolo")); // Return test
 
@@ -55,6 +56,7 @@ public class Xen0Lib extends JavaPlugin implements PluginMessage{
                     "ip VARCHAR(100)," +
                     "lastLogin BIGINT," +
                     "hasSession TINYINT");
+             */
         }else{
             Bukkit.getPluginCommand("xdev").setExecutor(new DisabledXDevCommand());
         }
