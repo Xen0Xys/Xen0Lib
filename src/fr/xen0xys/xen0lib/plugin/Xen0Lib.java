@@ -2,12 +2,8 @@ package fr.xen0xys.xen0lib.plugin;
 
 import fr.xen0xys.xen0lib.bungeecord.BungeeChannel;
 import fr.xen0xys.xen0lib.bungeecord.PluginMessage;
-import fr.xen0xys.xen0lib.database.Database;
-import fr.xen0xys.xen0lib.database.Table;
 import fr.xen0xys.xen0lib.plugin.commands.DisabledXDevCommand;
 import fr.xen0xys.xen0lib.plugin.commands.XDevCommand;
-import fr.xen0xys.xen0lib.utils.ConfigurationReader;
-import fr.xen0xys.xen0lib.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;

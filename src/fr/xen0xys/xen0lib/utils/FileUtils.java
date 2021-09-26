@@ -1,6 +1,9 @@
 package fr.xen0xys.xen0lib.utils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 

@@ -2,14 +2,11 @@ package fr.xen0xys.xen0lib.plugin.commands;
 
 import fr.xen0xys.xen0lib.bungeecord.BungeeChannel;
 import fr.xen0xys.xen0lib.bungeecord.PluginMessage;
-import fr.xen0xys.xen0lib.gui.anvilgui.AnvilGUI;
 import fr.xen0xys.xen0lib.plugin.Xen0Lib;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class XDevCommand implements CommandExecutor, PluginMessage {
     @Override

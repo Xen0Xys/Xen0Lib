@@ -2,6 +2,7 @@ fr.xen0xys.xen0lib.bungeecord
 fr.xen0xys.xen0lib.database
 fr.xen0xys.xen0lib.gui
 fr.xen0xys.xen0lib.gui.anvilgui
+fr.xen0xys.xen0lib.gui.anvilgui.version
 fr.xen0xys.xen0lib.logger
 fr.xen0xys.xen0lib.plugin
 fr.xen0xys.xen0lib.plugin.commands

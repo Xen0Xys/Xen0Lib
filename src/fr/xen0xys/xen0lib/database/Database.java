@@ -1,13 +1,12 @@
 package fr.xen0xys.xen0lib.database;
 
 import fr.xen0xys.xen0lib.utils.Status;
-import org.sqlite.SQLiteConnection;
 
-import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Database {
 
@@ -21,6 +20,7 @@ public class Database {
     private final String databasePath;
     private final boolean isMySQL;
     private final HashMap<String, Table> tables;
+    private final Logger logger;
 
     /**
      * Constructor for MySQL database only!
@@ -30,7 +30,7 @@ public class Database {
      * @param password
      * @param database
      */
-    public Database(String ip, int port, String user, String password, String database){
+    public Database(String ip, int port, String user, String password, String database, Logger logger){
         this.ip = ip;
         this.port = port;
         this.user = user;
@@ -39,6 +39,7 @@ public class Database {
         this.tables = new HashMap<>();
         this.databasePath = null;
         this.isMySQL = true;
+        this.logger = logger;
     }
 
     /**
@@ -46,7 +47,7 @@ public class Database {
      * @param folderPath Path for folder which database go in
      * @param fileName Database file name
      */
-    public Database(String folderPath, String fileName){
+    public Database(String folderPath, String fileName, Logger logger){
         this.ip = "";
         this.port = 0;
         this.user = "";
@@ -55,6 +56,7 @@ public class Database {
         this.tables = new HashMap<>();
         this.databasePath = folderPath + "/" + fileName + ".db";
         this.isMySQL = false;
+        this.logger = logger;
     }
 
     /**
@@ -62,6 +64,7 @@ public class Database {
      * @return Xen0Lib Status: Success, SQLError
      */
     public Status connect(){
+        DriverManager.setLoginTimeout(2);
         try{
             if(this.isMySQL){
                 this.connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s?autoReconnect=true",
@@ -233,7 +236,18 @@ public class Database {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.warning("Can't send request, retrying...");
             this.reconnect();
+            try {
+                Statement statement = this.getStatement();
+                if(statement != null) {
+                    statement.executeUpdate(query);
+                    return Status.Success;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                logger.severe("Request can't be sent, aborting!");
+            }
         }
         return Status.SQLError;
     }
@@ -252,7 +266,17 @@ public class Database {
             }
         } catch(SQLException e){
             e.printStackTrace();
+            logger.warning("Can't send request, retrying...");
             this.reconnect();
+            try{
+                Statement statement = this.getStatement();
+                if(statement != null){
+                    return statement.executeQuery(query);
+                }
+            } catch(SQLException ex){
+                ex.printStackTrace();
+                logger.severe("Request can't be sent, aborting!");
+            }
         }
         return null;
     }
@@ -299,7 +323,14 @@ public class Database {
             return preparedStatement.executeQuery();
         } catch(SQLException e){
             e.printStackTrace();
+            logger.warning("Can't send request, retrying...");
             this.reconnect();
+            try{
+                return preparedStatement.executeQuery();
+            } catch(SQLException ex){
+                ex.printStackTrace();
+                logger.severe("Request can't be sent, aborting!");
+            }
         }
         return null;
     }
