@@ -4,6 +4,7 @@ import fr.xen0xys.xen0lib.bungeecord.BungeeChannel;
 import fr.xen0xys.xen0lib.bungeecord.PluginMessage;
 import fr.xen0xys.xen0lib.plugin.commands.DisabledXDevCommand;
 import fr.xen0xys.xen0lib.plugin.commands.XDevCommand;
+import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -33,6 +34,9 @@ public class Xen0Lib extends JavaPlugin implements PluginMessage{
     @SuppressWarnings("ConstantConditions")
     public void onEnable() {
         super.onEnable();
+
+        AnvilGUI.Builder gui = new AnvilGUI.Builder();
+
         if(Xen0Lib.isDevModEnable()){
             Bukkit.getPluginCommand("xdev").setExecutor(new XDevCommand());
             /*
