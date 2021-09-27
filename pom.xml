@@ -6,7 +6,29 @@
 
     <groupId>fr.xen0xys</groupId>
     <artifactId>Xen0Lib</artifactId>
-    <version>1.1.1-RELEASE</version>
+    <version>1.1.1</version>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Library for Xen0Xys Minecraft plugins</description>
+    <url>https://xen0xys.fr</url>
+
+    <licenses>
+        <license>
+            <name>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</name>
+            <url>https://www.gnu.org/licenses/</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Xen0Xys</name>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/Xen0Xys/Xen0Lib.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Xen0Xys/Xen0Lib.git</developerConnection>
+        <url>https://github.com/Xen0Xys/Xen0Lib/tree/master</url>
+    </scm>
 
     <build>
         <plugins>
