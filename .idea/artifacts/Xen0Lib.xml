@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Xen0Lib">
-    <output-path>$PROJECT_DIR$/Server/plugins</output-path>
-    <root id="archive" name="Xen0Lib.jar">
-      <element id="module-output" name="Xen0Lib" />
-    </root>
-  </artifact>
-</component>
