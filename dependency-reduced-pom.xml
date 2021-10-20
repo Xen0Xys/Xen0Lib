@@ -4,7 +4,7 @@
   <groupId>fr.xen0xys</groupId>
   <artifactId>Xen0Lib</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
   <description>Library for Xen0Xys Minecraft plugins</description>
   <url>https://xen0xys.fr</url>
   <developers>

@@ -18,6 +18,7 @@ public class Gui implements Listener {
     private final Inventory inventory;
     private final HashMap<Integer, Component> components;
     private final boolean preventClosing;
+    private Component closeComponent;
 
     public Gui(Plugin plugin, String name, int linesNumber, boolean preventClosing){
         this.plugin = plugin;
@@ -58,6 +59,11 @@ public class Gui implements Listener {
         player.openInventory(this.inventory);
     }
 
+    public void setCloseComponent(int slot, Component component){
+        this.closeComponent = component;
+        this.setComponent(slot, component);
+    }
+
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e){
         if(e.getClickedInventory() == this.inventory){
@@ -68,6 +74,8 @@ public class Gui implements Listener {
                     if(clickedItem.isSimilar(component.getItemComponent())){
                         if(component instanceof ClickableComponent){
                             ((ClickableComponent) component).onClick(e);
+                        }else if(clickedItem.isSimilar(this.closeComponent.getItemComponent())){
+                            e.getWhoClicked().closeInventory();
                         }
                     }
                 }
