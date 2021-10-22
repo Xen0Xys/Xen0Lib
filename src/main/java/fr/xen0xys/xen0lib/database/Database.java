@@ -369,7 +369,6 @@ public class Database {
     public Status isDataExist(ResultSet rs){
         try {
             if(rs.next()){
-                rs.beforeFirst();
                 return Status.Exist;
             }else{
                 return Status.NotExist;
