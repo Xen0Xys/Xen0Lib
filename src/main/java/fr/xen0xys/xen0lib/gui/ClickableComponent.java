@@ -12,6 +12,11 @@ public class ClickableComponent extends Component{
         this.clickableObject = clickableObject;
     }
 
+    public ClickableComponent(Material material, int count, String name, String[] description, Clickable clickableObject, boolean isEnchanted) {
+        super(material, count, name, description, isEnchanted);
+        this.clickableObject = clickableObject;
+    }
+
     public void onClick(InventoryClickEvent e){
         this.clickableObject.onClick(e);
     }

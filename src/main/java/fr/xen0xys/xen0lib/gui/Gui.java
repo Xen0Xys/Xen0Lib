@@ -16,7 +16,7 @@ public class Gui implements Listener {
 
     private final Plugin plugin;
     private final Inventory inventory;
-    private final HashMap<Integer, Component> components;
+    private HashMap<Integer, Component> components;
     private final boolean preventClosing;
     private Component closeComponent;
 
@@ -65,7 +65,8 @@ public class Gui implements Listener {
     }
 
     public void clearInventory(){
-        this.components.clear();
+        this.components = new HashMap<>();
+        this.refresh();
     }
 
     @EventHandler
