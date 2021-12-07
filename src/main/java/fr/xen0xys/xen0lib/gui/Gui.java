@@ -64,6 +64,10 @@ public class Gui implements Listener {
         this.setComponent(slot, component);
     }
 
+    public void clearInventory(){
+        this.components.clear();
+    }
+
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e){
         if(e.getClickedInventory() == this.inventory){
