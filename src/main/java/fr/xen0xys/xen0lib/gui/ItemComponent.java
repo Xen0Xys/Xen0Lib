@@ -8,7 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 
-public class Component {
+public class ItemComponent {
 
     private final Material material;
     private final int count;
@@ -16,7 +16,7 @@ public class Component {
     private final String[] description;
     private final boolean isEnchanted;
 
-    public Component(Material material, int count, String name, String[] description) {
+    public ItemComponent(Material material, int count, String name, String[] description) {
         this.material = material;
         this.count = count;
         this.name = name;
@@ -24,7 +24,7 @@ public class Component {
         this.isEnchanted = false;
     }
 
-    public Component(Material material, int count, String name, String[] description, boolean isEnchanted) {
+    public ItemComponent(Material material, int count, String name, String[] description, boolean isEnchanted) {
         this.material = material;
         this.count = count;
         this.name = name;
