@@ -24,7 +24,7 @@ public class Gui implements Listener {
     public Gui(Plugin plugin, String name, int linesNumber, boolean preventClosing){
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
-        this.inventory = Bukkit.createInventory(null, linesNumber * 9, Component.text(""));
+        this.inventory = Bukkit.createInventory(null, linesNumber * 9, Component.text(name));
         this.components = new HashMap<>();
         this.preventClosing = preventClosing;
     }

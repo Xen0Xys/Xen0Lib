@@ -1,8 +1,10 @@
 package fr.xen0xys.xen0lib.plugin.commands;
 
 import fr.xen0xys.xen0lib.bungeecord.PluginMessage;
+import fr.xen0xys.xen0lib.gui.Gui;
 import fr.xen0xys.xen0lib.plugin.Xen0Lib;
 import net.wesjd.anvilgui.AnvilGUI;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,6 +40,7 @@ public class XDevCommand implements CommandExecutor, PluginMessage {
             BungeeChannel channel = new BungeeChannel(Xen0Lib.getInstance(), this);
             channel.connect(player, "netherrp");
              */
+            /**
             AnvilGUI.Builder builder = new AnvilGUI.Builder().plugin(Xen0Lib.getInstance()).itemLeft(new ItemStack(Material.PAPER)).title("Test").text("password");
 
             builder.onComplete((_player, text) -> {
@@ -50,6 +53,10 @@ public class XDevCommand implements CommandExecutor, PluginMessage {
             });
 
             builder.open(player);
+             */
+
+            Gui gui = new Gui(Xen0Lib.getInstance(), ChatColor.RED + "Custom Name", 3, false);
+            gui.openInventory(player);
         }
         return false;
     }
