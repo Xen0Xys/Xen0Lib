@@ -1,5 +1,6 @@
 package fr.xen0xys.xen0lib.gui;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,19 +17,19 @@ public class Gui implements Listener {
 
     private final Plugin plugin;
     private final Inventory inventory;
-    private final HashMap<Integer, Component> components;
+    private HashMap<Integer, ItemComponent> components;
     private final boolean preventClosing;
-    private Component closeComponent;
+    private ItemComponent closeComponent;
 
     public Gui(Plugin plugin, String name, int linesNumber, boolean preventClosing){
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
-        this.inventory = Bukkit.createInventory(null, linesNumber * 9, name);
+        this.inventory = Bukkit.createInventory(null, linesNumber * 9, Component.text(name));
         this.components = new HashMap<>();
         this.preventClosing = preventClosing;
     }
 
-    public void setComponent(int slot, Component component){
+    public void setComponent(int slot, ItemComponent component){
         this.components.put(slot, component);
     }
 
@@ -39,13 +40,13 @@ public class Gui implements Listener {
         }
     }
 
-    public void fill(int startSlot, int stopSlot, Component component){
+    public void fill(int startSlot, int stopSlot, ItemComponent component){
         for(int slot = startSlot; slot < stopSlot; slot++){
             this.setComponent(slot, component);
         }
     }
 
-    public void fill(Component component){
+    public void fill(ItemComponent component){
         this.fill(0, this.inventory.getSize(), component);
     }
 
@@ -59,9 +60,14 @@ public class Gui implements Listener {
         player.openInventory(this.inventory);
     }
 
-    public void setCloseComponent(int slot, Component component){
+    public void setCloseComponent(int slot, ItemComponent component){
         this.closeComponent = component;
         this.setComponent(slot, component);
+    }
+
+    public void clearInventory(){
+        this.components = new HashMap<>();
+        this.refresh();
     }
 
     @EventHandler
@@ -70,10 +76,10 @@ public class Gui implements Listener {
             e.setCancelled(true);
             ItemStack clickedItem = e.getCurrentItem();
             if(clickedItem != null){
-                for(Component component: this.components.values()){
+                for(ItemComponent component: this.components.values()){
                     if(clickedItem.isSimilar(component.getItemComponent())){
-                        if(component instanceof ClickableComponent){
-                            ((ClickableComponent) component).onClick(e);
+                        if(component instanceof ClickableItemComponent){
+                            ((ClickableItemComponent) component).onClick(e);
                         }else if(clickedItem.isSimilar(this.closeComponent.getItemComponent())){
                             e.getWhoClicked().closeInventory();
                         }
