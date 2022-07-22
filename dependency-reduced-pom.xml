@@ -4,7 +4,7 @@
   <groupId>fr.xen0xys</groupId>
   <artifactId>Xen0Lib</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
-  <version>1.1.4</version>
+  <version>1.1.5</version>
   <description>Library for Xen0Xys Minecraft plugins</description>
   <url>https://xen0xys.fr</url>
   <developers>
@@ -60,7 +60,7 @@
     <dependency>
       <groupId>io.papermc.paper</groupId>
       <artifactId>paper-api</artifactId>
-      <version>1.18.1-R0.1-SNAPSHOT</version>
+      <version>1.19-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
