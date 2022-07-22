@@ -4,6 +4,7 @@ import fr.xen0xys.xen0lib.bungeecord.BungeeChannel;
 import fr.xen0xys.xen0lib.bungeecord.PluginMessage;
 import fr.xen0xys.xen0lib.plugin.commands.DisabledXDevCommand;
 import fr.xen0xys.xen0lib.plugin.commands.XDevCommand;
+import fr.xen0xys.xen0lib.utils.ConfigurationReader;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -60,7 +61,12 @@ public class Xen0Lib extends JavaPlugin implements PluginMessage{
         }else{
             Bukkit.getPluginCommand("xdev").setExecutor(new DisabledXDevCommand());
         }
-
+        /*
+        ConfigurationReader configurationReader = new ConfigurationReader(this, "resources/custom_config.yml");
+        System.out.println(configurationReader.getConfiguration().get("yolo"));
+        configurationReader.getConfiguration().set("yolo", "Modified");
+        configurationReader.save();
+         */
     }
 
     public static Plugin getInstance() {

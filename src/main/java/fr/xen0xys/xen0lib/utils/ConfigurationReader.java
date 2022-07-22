@@ -5,6 +5,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 
 /**
  * With this object, you can get a configuration file
@@ -38,7 +40,11 @@ public class ConfigurationReader {
      * Save the configuration file in the server, with overriding older
      */
     public void save(){
-        this.plugin.saveResource(this.configName, true);
+        try {
+            this.configuration.save("plugins/Xen0Lib/" + this.configName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
