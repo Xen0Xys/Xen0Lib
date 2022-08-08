@@ -6,7 +6,7 @@
 
     <groupId>fr.xen0xys</groupId>
     <artifactId>Xen0Lib</artifactId>
-    <version>1.1.6</version>
+    <version>1.1.7</version>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Library for Xen0Xys Minecraft plugins</description>
     <url>https://xen0xys.fr</url>
@@ -17,45 +17,6 @@
             <url>https://www.gnu.org/licenses/</url>
         </license>
     </licenses>
-
-    <developers>
-        <developer>
-            <name>Xen0Xys</name>
-        </developer>
-    </developers>
-
-    <scm>
-        <connection>scm:git:git://github.com/Xen0Xys/Xen0Lib.git</connection>
-        <developerConnection>scm:git:ssh://github.com:Xen0Xys/Xen0Lib.git</developerConnection>
-        <url>https://github.com/Xen0Xys/Xen0Lib/tree/master</url>
-    </scm>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <outputDirectory>Server/plugins</outputDirectory>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -77,7 +38,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.19.1-R0.1-SNAPSHOT</version>
+            <version>1.19.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -91,5 +52,36 @@
             <version>3.0.2</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <outputDirectory>Server/plugins</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+
+
+
 
 </project>
