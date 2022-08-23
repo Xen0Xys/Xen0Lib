@@ -32,8 +32,17 @@ public class ConfigurationReader {
             this.plugin.saveResource(this.configName, false);
         }
         this.configuration = YamlConfiguration.loadConfiguration(file);
+    }
 
+    public ConfigurationReader(File dataFolder, String configName){
+        this.configName = configName;
+        this.plugin = null;
 
+        File file = new File(dataFolder, configName);
+        if(!file.exists()) {
+            this.save();
+        }
+        this.configuration = YamlConfiguration.loadConfiguration(file);
     }
 
     /**
