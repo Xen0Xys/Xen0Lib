@@ -1,12 +1,10 @@
 package fr.xen0xys.xen0lib.utils;
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bspfsystems.yamlconfiguration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 
 /**
  * With this object, you can get a configuration file
@@ -16,7 +14,7 @@ public class ConfigurationReader {
 
     private final Plugin plugin;
     private final String configName;
-    private final FileConfiguration configuration;
+    private final YamlConfiguration configuration;
 
     /**
      * Constructor of ConfigurationReader
@@ -60,7 +58,7 @@ public class ConfigurationReader {
      * Get local FileConfiguration
      * @return FileConfiguration
      */
-    public FileConfiguration getConfiguration(){
+    public YamlConfiguration getConfiguration(){
         return this.configuration;
     }
 
